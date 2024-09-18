@@ -12,13 +12,13 @@ class TodoObserver
     use SerializesModels;
     public function created(Todo $todo): void
     {
-        notifyassigneduserjob::dispatch($todo, 'created');
+        Notifyassigneduserjob::dispatch($todo, 'created');
 //        defer(fn() => $todo->assignedTo->notify(new TodoNotification($todo, 'created')));
     }
 
     public function updated(Todo $todo): void
     {
-        notifyassigneduserjob::dispatch($todo, 'updated');
+        Notifyassigneduserjob::dispatch($todo, 'updated');
 //        defer(fn() => $todo->assignedTo->notify(new TodoNotification($todo, 'updated')));
     }
 }
