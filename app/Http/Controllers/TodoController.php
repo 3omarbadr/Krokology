@@ -22,7 +22,14 @@ class TodoController extends Controller
 
     public function index()
     {
-        $todos = $this->todoRepository->withRelations(['assignedTo:id,name', 'assignedBy:id,name'])->paginate(10);
+        $todos = $this->todoRepository
+            ->withRelations(['assignedTo:id,name', 'assignedBy:id,name'])
+            ->search(request()->only('q'))
+            ->status(request()->only('status'))
+            ->assignedTo(request()->only('assigned_to'))
+            ->dueDate(request()->only('due_date'))
+            ->paginate(10);
+
         return $this->successResponse(TodoResource::collection($todos), 'Todos retrieved successfully');
     }
 
