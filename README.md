@@ -1,66 +1,157 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Krokology Todo API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is a Laravel-based Todo API application with authentication and CRUD operations for managing todos.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- User authentication (register, login, logout) using Laravel Sanctum
+- CRUD operations for todos
+- Image upload for todos
+- Assign todos to users
+- Search functionality
+- Pagination
+- Email notifications for todo creation and updates (simulated)
+- Unit tests
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.2+
+- Composer
+- MySQL
+- Laravel 11
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Clone the repository:
+   ```
+   git clone git@github.com:3omarbadr/Krokology.git
+   ```
+2. Navigate to the project directory:
+   ```
+   cd Krokology
+   ```
+3. Install dependencies:
+   ```
+   composer install
+   ```
+4. Copy the `.env.example` file to `.env` and configure your database settings:
+   ```
+   cp .env.example .env
+   ```
+5. Generate an application key:
+   ```
+   php artisan key:generate
+   ```
+6. Run migrations and seeders:
+   ```
+   php artisan migrate --seed
+   ```
+7. Start the development server:
+   ```
+   php artisan serve
+   ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## API Documentation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Postman Collection
 
-## Laravel Sponsors
+To quickly test and explore the API endpoints, you can use our Postman collection:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+[Krokology Todo API Postman Collection](https://documenter.getpostman.com/view/16204995/2sAXqqePV1)
 
-### Premium Partners
+### Authentication
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- Register: `POST /api/auth/register`
+- Login: `POST /api/auth/login`
+- Logout: `POST /api/auth/logout` (requires authentication)
 
-## Contributing
+### Todos
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- List todos: `GET /api/todos`
+- Create todo: `POST /api/todos`
+- Get todo: `GET /api/todos/{id}`
+- Update todo: `PUT /api/todos/{id}`
+- Delete todo: `DELETE /api/todos/{id}`
 
-## Code of Conduct
+All todo endpoints require authentication.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Running Tests
 
-## Security Vulnerabilities
+To run the unit tests, use the following command:
+```
+php artisan test
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Krokology Todo API - Repository Pattern Conventions
 
-## License
+## Directory Structure
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The repository pattern is implemented with the following directory structure:
+
+```
+app/
+├── Repositories/
+│   ├── Contracts/
+│   │   └── ITodoRepository.php
+│   └── SQL/
+│       └── TodoRepository.php
+├── Providers/
+│   └── RepositoryServiceProvider.php
+```
+
+## Naming Conventions
+
+1. **Repository Interfaces**:
+   - Location: `app/Repositories/Contracts/`
+   - Naming: Prefixed with "I", PascalCase, suffixed with "Repository"
+   - Example: `ITodoRepository`
+
+2. **Repository Implementations**:
+   - Location: `app/Repositories/SQL/`
+   - Naming: PascalCase, suffixed with "Repository"
+   - Example: `TodoRepository`
+
+3. **Service Provider**:
+   - Location: `app/Providers/`
+   - Naming: PascalCase, suffixed with "ServiceProvider"
+   - Example: `RepositoryServiceProvider`
+
+## Implementation Details
+
+1. **Interfaces (Contracts)**:
+   - Define methods that the repository must implement
+   - Example: `ITodoRepository` would define methods like `getAll()`, `findById()`, `create()`, etc.
+
+2. **Implementations**:
+   - Implement the corresponding interface
+   - Contain the actual database query logic
+   - Example: `TodoRepository` implements `ITodoRepository`
+
+3. **Service Provider**:
+   - Automatically binds interfaces to their implementations
+   - Uses reflection to dynamically bind all repository interfaces to their SQL implementations
+
+## Usage in Controllers
+
+Controllers should type-hint the repository interface in their constructor:
+
+```php
+use App\Repositories\Contracts\ITodoRepository;
+
+class TodoController extends Controller
+{
+    public function __construct(private ITodoRepository $todoRepository)
+    {}
+
+    // ...
+}
+```
+
+This approach allows for easy swapping of repository implementations and promotes separation of concerns.
+
+## Advantages
+
+1. **Abstraction**: Business logic is separated from data access logic
+2. **Testability**: Easier to mock repositories for unit testing
+3. **Flexibility**: Can easily switch between different data sources (e.g., SQL to NoSQL)
+4. **Consistency**: Provides a standard way of accessing data across the application
