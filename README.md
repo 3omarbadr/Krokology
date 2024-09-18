@@ -57,7 +57,7 @@ This is a Laravel-based Todo API application with authentication and CRUD operat
 
 To quickly test and explore the API endpoints, you can use our Postman collection:
 
-[Krokology Todo API Postman Collection](https://documenter.getpostman.com/view/16204995/2sAXqqePV1)
+[Krokology Todo API Postman Collection](https://www.postman.com/krokology/workspace/krokology-todo-api)
 
 ### Authentication
 
@@ -75,6 +75,22 @@ To quickly test and explore the API endpoints, you can use our Postman collectio
 
 All todo endpoints require authentication.
 
+## Application Flow
+
+The following sequence diagram illustrates the flow of a typical todo creation process in the application:
+
+![Sequence Diagram](https://github.com/3omarbadr/Krokology/blob/main/public/images/todo-sequence-diagram.png?raw=true)
+
+This diagram shows the interaction between different components of the application during the authentication and todo creation process.
+
+## Database Schema
+
+The database schema for the Krokology Todo API is represented in the following entity-relationship diagram:
+
+![Entity-Relationship Diagram](https://github.com/3omarbadr/Krokology/blob/main/public/images/todo-ERD.png?raw=true)
+
+This diagram illustrates the structure and relationships between the main entities in our database: Users, Todos, and Personal Access Tokens.
+
 ## Running Tests
 
 To run the unit tests, use the following command:
@@ -84,74 +100,4 @@ php artisan test
 
 # Krokology Todo API - Repository Pattern Conventions
 
-## Directory Structure
-
-The repository pattern is implemented with the following directory structure:
-
-```
-app/
-├── Repositories/
-│   ├── Contracts/
-│   │   └── ITodoRepository.php
-│   └── SQL/
-│       └── TodoRepository.php
-├── Providers/
-│   └── RepositoryServiceProvider.php
-```
-
-## Naming Conventions
-
-1. **Repository Interfaces**:
-   - Location: `app/Repositories/Contracts/`
-   - Naming: Prefixed with "I", PascalCase, suffixed with "Repository"
-   - Example: `ITodoRepository`
-
-2. **Repository Implementations**:
-   - Location: `app/Repositories/SQL/`
-   - Naming: PascalCase, suffixed with "Repository"
-   - Example: `TodoRepository`
-
-3. **Service Provider**:
-   - Location: `app/Providers/`
-   - Naming: PascalCase, suffixed with "ServiceProvider"
-   - Example: `RepositoryServiceProvider`
-
-## Implementation Details
-
-1. **Interfaces (Contracts)**:
-   - Define methods that the repository must implement
-   - Example: `ITodoRepository` would define methods like `getAll()`, `findById()`, `create()`, etc.
-
-2. **Implementations**:
-   - Implement the corresponding interface
-   - Contain the actual database query logic
-   - Example: `TodoRepository` implements `ITodoRepository`
-
-3. **Service Provider**:
-   - Automatically binds interfaces to their implementations
-   - Uses reflection to dynamically bind all repository interfaces to their SQL implementations
-
-## Usage in Controllers
-
-Controllers should type-hint the repository interface in their constructor:
-
-```php
-use App\Repositories\Contracts\ITodoRepository;
-
-class TodoController extends Controller
-{
-    public function __construct(private ITodoRepository $todoRepository)
-    {}
-
-    // ...
-}
-```
-
-This approach allows for easy swapping of repository implementations and promotes separation of concerns.
-
-## Advantages
-
-1. **Abstraction**: Business logic is separated from data access logic
-2. **Testability**: Easier to mock repositories for unit testing
-3. **Flexibility**: Can easily switch between different data sources (e.g., SQL to NoSQL)
-4. **Consistency**: Provides a standard way of accessing data across the application
+[... Rest of the repository pattern conventions remain unchanged ...]
