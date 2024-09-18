@@ -70,7 +70,7 @@ To quickly test and explore the API endpoints, you can use our Postman collectio
 - List todos: `GET /api/todos`
 - Create todo: `POST /api/todos`
 - Get todo: `GET /api/todos/{id}`
-- Update todo: `PUT /api/todos/{id}`
+- Update todo: `PATCH /api/todos/{id}`
 - Delete todo: `DELETE /api/todos/{id}`
 
 All todo endpoints require authentication.
