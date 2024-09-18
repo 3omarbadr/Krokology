@@ -51,7 +51,6 @@ class Todo extends Model
 
     public function scopeSearch(Builder $query, array $filters): Builder
     {
-//        dd($filters);
         return $query->when(data_get($filters, 'q'), fn($query, $search) =>
         $query->where('title', 'like', "%{$search}%")
             ->orWhere('description', 'like', "%{$search}%")
