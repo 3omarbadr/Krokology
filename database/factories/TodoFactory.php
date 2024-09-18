@@ -12,13 +12,11 @@ class TodoFactory extends Factory
 
     public function definition(): array
     {
+        $users = User::pluck('id');
+
         return [
-            'assigned_to' => function ($users) {
-                return $users->random()->id;
-            },
-            'assigned_by' => function ($users) {
-                return $users->random()->id;
-            },
+            'assigned_to' => $users->random(),
+            'assigned_by' => $users->random(),
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
             'status' => 'pending',
