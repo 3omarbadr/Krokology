@@ -6,6 +6,7 @@ use App\Enums\TodoStatus;
 use App\Http\Requests\TodoRequest;
 use App\Http\Requests\TodoUpdateRequest;
 use App\Http\Resources\TodoResource;
+use App\Models\Todo;
 use App\Models\User;
 use App\Notifications\TodoNotification;
 use App\Repositories\Contracts\ITodoRepository;
@@ -41,25 +42,13 @@ class TodoController extends Controller
         return $this->successResponse(new TodoResource($todo), 'Todo created successfully', 201);
     }
 
-    public function show($id)
+    public function show(Todo $todo)
     {
-        $todo = $this->todoRepository->find($id);
-
-        if (!$todo) {
-            return $this->errorResponse(['message' => 'Todo not found'], 404);
-        }
-
-        return new TodoResource($todo);
+        return $this->successResponse(new TodoResource($todo), 'Todo retrieved successfully');
     }
 
-    public function update(TodoUpdateRequest $request, $id)
+    public function update(TodoUpdateRequest $request, Todo $todo)
     {
-        $todo = $this->todoRepository->find($id);
-
-        if (!$todo) {
-            return $this->errorResponse(['message' => 'Todo not found'], 404);
-        }
-
         $data = $request->validated();
 
         if ($request->hasFile('image')) {
@@ -71,14 +60,18 @@ class TodoController extends Controller
 
         $updatedData = array_merge($todo->toArray(), $data);
 
-        $this->todoRepository->update($id, $updatedData);
+        $this->todoRepository->update($todo->id, $updatedData);
 
         return $this->successResponse(new TodoResource($todo), 'Todo updated successfully');
     }
 
-    public function destroy($id)
+    public function destroy(Todo $todo)
     {
-        $this->todoRepository->destroy($id);
+        if ($todo->image && file_exists(storage_path("app/public/{$todo->image}"))) {
+            unlink(storage_path("app/public/{$todo->image}"));
+        }
+
+        $this->todoRepository->destroy($todo->id);
         return $this->successResponse(null, 'Todo deleted successfully', 200);
     }
 }
